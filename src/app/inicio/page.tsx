@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useSession } from "../contexts/sessionContext";
-import { useRouter } from "next/navigation"; // Correção na importação
+import { useRouter } from "next/navigation";
 import React from "react";
 import { CircularProgress } from "@mui/material";
 import { updateSession } from "../utils/auth";

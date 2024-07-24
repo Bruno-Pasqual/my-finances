@@ -29,7 +29,7 @@ export async function isEmailAvaliable(email: string): Promise<boolean> {
 	return user === null;
 }
 
-export async function userExist(
+export async function validUser(
 	email: string,
 	senha: string
 ): Promise<boolean> {

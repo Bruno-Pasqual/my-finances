@@ -7,7 +7,7 @@ export default function NavLink(props: NavlinkType) {
 	return (
 		<Link
 			href={props.navigateTo}
-			className={` ${pathname.includes(props.navigateTo) ? "active" : ""} navlink`}
+			className={` ${pathname == props.navigateTo ? "active" : ""} navlink`}
 		>
 			{props.icon}
 			<p className="nav-label">{props.label}</p>

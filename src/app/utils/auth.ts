@@ -1,8 +1,7 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { userExist } from "../Dao/UserDao";
-import { useToast } from "@/hooks/useToast";
+import { validUser } from "../Dao/UserDao";
 
 const secretKey = "secret";
 const key = new TextEncoder().encode(secretKey);
@@ -11,7 +10,7 @@ export async function encrypt(payload: any) {
 	return await new SignJWT(payload)
 		.setProtectedHeader({ alg: "HS256" })
 		.setIssuedAt()
-		.setExpirationTime("1h")
+		.setExpirationTime("10 minutes from now")
 		.sign(key);
 }
 
@@ -22,31 +21,27 @@ export async function decrypt(input: string): Promise<any> {
 	return payload;
 }
 
-export async function login(props: InformacoesLogin): Promise<LoginResponse> {
-	let userValid = false;
+export async function login(formData: FormData) {
+	const user: InformacoesLogin = {
+		email: formData.get("email") as string,
+		senha: formData.get("senha") as string,
+	};
 
-	const user = { email: props.email, senha: props.senha };
+	const isValidUser = await validUser(user.email, user.senha);
 
-	const isUserValid = await userExist(user.email, user.senha);
-	if (isUserValid) userValid = true;
-
-	if (userValid) {
-		// Create the session
+	if (isValidUser) {
 		const expires = new Date(Date.now() + 3600 * 1000);
 		const session = await encrypt({ user, expires });
-
-		// Save the session in a cookie
 		cookies().set("session", session, { expires, httpOnly: true });
-		return { success: true, msg: "Bem vindo de volta", session };
+		return session;
 	} else {
-		logout();
-		return { success: false, msg: "Email ou senha incorretos", session: null };
+		null;
 	}
 }
 
-export async function logout() {
-	// Destroy the session
+export async function FinalizarSessao() {
 	cookies().set("session", "", { expires: new Date(0) });
+	return true;
 }
 
 export async function getSession() {
@@ -57,16 +52,11 @@ export async function getSession() {
 
 export async function updateSession(request: NextRequest) {
 	const session = request.cookies.get("session")?.value;
+	if (!session) return;
 
-	if (!session) {
-		// Se não houver sessão, redirecione para a página inicial
-		return NextResponse.redirect("/");
-	}
-
-	// Se a sessão existir, atualize-a para evitar expiração
+	// Refresh the session so it doesn't expire
 	const parsed = await decrypt(session);
-	parsed.expires = new Date(Date.now() + 3600 * 1000); // Atualizar a expiração da sessão para 1 hora no futuro
-
+	parsed.expires = new Date(Date.now() + 10 * 1000);
 	const res = NextResponse.next();
 	res.cookies.set({
 		name: "session",
@@ -74,6 +64,5 @@ export async function updateSession(request: NextRequest) {
 		httpOnly: true,
 		expires: parsed.expires,
 	});
-
 	return res;
 }

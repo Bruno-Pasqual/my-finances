@@ -1,15 +1,20 @@
 "use server";
 
-import { getSession, login as loginService } from "@/app/utils/auth";
+import {
+	FinalizarSessao,
+	getSession,
+	login as loginService,
+} from "@/app/utils/auth";
 import { createUser, isEmailAvaliable } from "../Dao/UserDao";
 import { isEqual } from "./utils";
+import { useSession } from "../contexts/sessionContext";
 
-export async function handleLogin(dadosLogin: InformacoesLogin) {
+export async function handleLogin(data: FormData) {
 	try {
-		const response: LoginResponse = await loginService(dadosLogin);
+		const response = await loginService(data);
 		return response;
 	} catch (error) {
-		return { success: false, msg: "Email ou senha não conferem" };
+		return { success: false, msg: "Algo deu errado" };
 	}
 }
 
@@ -49,4 +54,8 @@ function extractUserInfo(data: FormData) {
 export async function handleGetSession(): Promise<any> {
 	const session = await getSession();
 	return session;
+}
+
+export async function handleLogout() {
+	const response = await FinalizarSessao();
 }
