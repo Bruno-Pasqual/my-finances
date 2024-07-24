@@ -7,12 +7,12 @@ import FlagIcon from "@mui/icons-material/Flag";
 import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
 import NavLink from "./NavLink";
-import { useSession } from "@/app/contexts/sessionContext";
 import { useEffect } from "react";
 import { useToast } from "@/hooks/useToast";
 import { ToastType } from "@/enums/enums";
 import router from "next/router";
-import { handleLogout } from "@/app/utils/test";
+import { handleLogout } from "@/app/controllers/UserController";
+import { useGlobalContext } from "@/app/contexts/GlobalContext";
 
 type NavlinkType = {
 	label: string;
@@ -44,7 +44,7 @@ const linksPage: NavlinkType[] = [
 ];
 
 export default function Navbar() {
-	const { session, setSession } = useSession();
+	const { session, setSession, setCurrentUserId } = useGlobalContext();
 	const { showToast } = useToast();
 
 	useEffect(() => {
@@ -52,12 +52,13 @@ export default function Navbar() {
 	}, [session]);
 
 	async function handleSaida(): Promise<void> {
+		setCurrentUserId(undefined);
 		const response = await handleLogout();
 		setSession(null);
 	}
 
 	return (
-		<nav className={`navbar ${session == null ? "hidden" : ""}`}>
+		<nav className={`navbar z-10 ${session == null ? "hidden" : ""}`}>
 			<ul className="links-list">
 				{linksPage.map((info, index) => (
 					<li key={index}>

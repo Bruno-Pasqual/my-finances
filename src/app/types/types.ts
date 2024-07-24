@@ -1,34 +1,51 @@
-type NavlinkType = {
+export type NavlinkType = {
 	label: string;
 	icon: React.ReactElement;
 	navigateTo: string;
 };
 
-type InformacoesLogin = {
+export type InformacoesLogin = {
 	email: string;
 	senha: string;
 };
 
-type InformacoesCadastro = {
+export type InformacoesCadastro = {
 	nome: string;
 	email: string;
 	senha: string[];
 };
 
-type User = {
+export type User = {
 	id: number;
 	nome: string;
 	email: string;
 	senha: string;
 };
 
-type OperationResponse = {
+export type OperationResponse = {
 	success: boolean;
 	msg: string;
 };
 
-type LoginResponse = {
+export type LoginResponse = {
 	success: boolean;
 	msg: string;
 	session: any;
+};
+
+export type Transaction = {
+	id: number;
+	valor: number;
+	descricao: string;
+	titulo: string;
+	userId: number;
+	tipo: string;
+};
+
+export type infoTransaction = {
+	valor: number;
+	descricao: string;
+	titulo: string;
+	userId: number;
+	tipo: string;
 };

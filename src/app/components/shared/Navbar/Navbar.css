@@ -38,7 +38,7 @@
 		width: 70px;
 		height: 100vh;
 		align-items: flex-start;
-		transition: all 0.5s;
+		transition: width 0.5s;
 		overflow: hidden;
 		padding: 0;
 	}

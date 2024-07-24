@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect } from "react";
-import { useSession } from "../contexts/sessionContext";
+import { useGlobalContext } from "../contexts/GlobalContext";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { CircularProgress } from "@mui/material";
 import { updateSession } from "../utils/auth";
 
 export default function Page() {
-	const { session } = useSession();
+	const { session } = useGlobalContext();
 	const router = useRouter(); // Obtendo o router
 
 	const [loading, setLoading] = React.useState<boolean>(true);

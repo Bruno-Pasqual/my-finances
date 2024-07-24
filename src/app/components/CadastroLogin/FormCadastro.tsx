@@ -1,4 +1,7 @@
-import { handleCadastro, handleEmailAvaliable } from "@/app/utils/test";
+import {
+	handleCadastro,
+	handleEmailAvaliable,
+} from "@/app/controllers/UserController";
 import { Button, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import React from "react";
@@ -6,6 +9,7 @@ import { toast, Toaster } from "sonner";
 import { isValidEmailFormat } from "@/app/utils/utils";
 import { useToast } from "@/hooks/useToast";
 import { ToastType } from "@/enums/enums";
+import { OperationResponse } from "@/app/types/types";
 // Custom styled TextField
 
 const CustomTextField = styled(TextField)({

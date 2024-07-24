@@ -3,11 +3,11 @@
 import React, { useEffect } from "react";
 import { Paper } from "@mui/material";
 import CadastroLogin from "./components/CadastroLogin/CadastroLogin";
-import { useSession } from "./contexts/sessionContext";
+import { useGlobalContext } from "./contexts/GlobalContext";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
-	const { session } = useSession();
+	const { session } = useGlobalContext();
 	const router = useRouter();
 
 	useEffect(() => {

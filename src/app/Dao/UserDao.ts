@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { log } from "console";
+import { InformacoesCadastro, User } from "../types/types";
 const prisma = new PrismaClient();
 
 export async function createUser(infoCadastro: InformacoesCadastro) {
@@ -27,6 +28,18 @@ export async function isEmailAvaliable(email: string): Promise<boolean> {
 	});
 
 	return user === null;
+}
+
+export async function getCurrentUserId(email: string): Promise<number | null> {
+	const user = await prisma.user.findUnique({
+		where: { email: email },
+	});
+
+	if (user) {
+		return user.id;
+	} else {
+		return null;
+	}
 }
 
 export async function validUser(

@@ -1,11 +1,12 @@
 "use client";
-import { handleLogin } from "@/app/utils/test";
+
+import { getUserId, handleLogin } from "@/app/controllers/UserController";
 import { Button, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useToast } from "@/hooks/useToast";
 import { ToastType } from "@/enums/enums";
 import { Router, useRouter } from "next/router";
-import { useSession } from "@/app/contexts/sessionContext";
+import { useGlobalContext } from "@/app/contexts/GlobalContext";
 
 // Custom styled TextField
 const CustomTextField = styled(TextField)({
@@ -31,7 +32,7 @@ const CustomTextField = styled(TextField)({
 
 export default function FormLogin() {
 	const { showToast } = useToast();
-	const { session, setSession } = useSession();
+	const { session, setSession, setCurrentUserId } = useGlobalContext();
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -39,7 +40,16 @@ export default function FormLogin() {
 		const result = await handleLogin(data);
 
 		if (result) {
-			setSession(true);
+			const currentUserId: number | null = await getUserId(
+				data.get("email") as string
+			);
+
+			if (currentUserId) {
+				setCurrentUserId(currentUserId);
+				setSession(true);
+			} else {
+				showToast(ToastType.ERROR, "Alguma coisa deu errado");
+			}
 		}
 		if (!result) showToast(ToastType.ERROR, "Email ou senha não conferem");
 	};

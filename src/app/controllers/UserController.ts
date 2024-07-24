@@ -4,10 +4,11 @@ import {
 	FinalizarSessao,
 	getSession,
 	login as loginService,
-} from "@/app/utils/auth";
-import { createUser, isEmailAvaliable } from "../Dao/UserDao";
-import { isEqual } from "./utils";
-import { useSession } from "../contexts/sessionContext";
+} from "../utils/auth";
+import { createUser, getCurrentUserId, isEmailAvaliable } from "../Dao/UserDao";
+import { isEqual } from "../utils/utils";
+import { useGlobalContext } from "../contexts/GlobalContext";
+import { InformacoesCadastro, OperationResponse } from "../types/types";
 
 export async function handleLogin(data: FormData) {
 	try {
@@ -58,4 +59,9 @@ export async function handleGetSession(): Promise<any> {
 
 export async function handleLogout() {
 	const response = await FinalizarSessao();
+}
+
+export async function getUserId(email: string) {
+	const response = await getCurrentUserId(email);
+	return response;
 }

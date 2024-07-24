@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { useSession } from "../contexts/sessionContext";
+import { useGlobalContext } from "../contexts/GlobalContext";
 import { useRouter } from "next/navigation";
 
 export default function Page() {
-	const { session } = useSession();
+	const { session } = useGlobalContext();
 	const router = useRouter(); // Obtendo o router
 
 	const [loading, setLoading] = React.useState<boolean>(true);
