@@ -11,7 +11,7 @@ export async function encrypt(payload: any) {
 	return await new SignJWT(payload)
 		.setProtectedHeader({ alg: "HS256" })
 		.setIssuedAt()
-		.setExpirationTime("10 sec from now")
+		.setExpirationTime("1h")
 		.sign(key);
 }
 
@@ -25,8 +25,6 @@ export async function decrypt(input: string): Promise<any> {
 export async function login(props: InformacoesLogin): Promise<LoginResponse> {
 	let userValid = false;
 
-	// Verify credentials && get the user
-
 	const user = { email: props.email, senha: props.senha };
 
 	const isUserValid = await userExist(user.email, user.senha);
@@ -34,7 +32,7 @@ export async function login(props: InformacoesLogin): Promise<LoginResponse> {
 
 	if (userValid) {
 		// Create the session
-		const expires = new Date(Date.now() + 10 * 1000);
+		const expires = new Date(Date.now() + 3600 * 1000);
 		const session = await encrypt({ user, expires });
 
 		// Save the session in a cookie
@@ -67,7 +65,7 @@ export async function updateSession(request: NextRequest) {
 
 	// Se a sessão existir, atualize-a para evitar expiração
 	const parsed = await decrypt(session);
-	parsed.expires = new Date(Date.now() + 10 * 1000); // Atualizar a expiração da sessão para 10 segundos no futuro
+	parsed.expires = new Date(Date.now() + 3600 * 1000); // Atualizar a expiração da sessão para 1 hora no futuro
 
 	const res = NextResponse.next();
 	res.cookies.set({

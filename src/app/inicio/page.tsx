@@ -5,6 +5,7 @@ import { useSession } from "../contexts/sessionContext";
 import { useRouter } from "next/navigation"; // Correção na importação
 import React from "react";
 import { CircularProgress } from "@mui/material";
+import { updateSession } from "../utils/auth";
 
 export default function Page() {
 	const { session } = useSession();
