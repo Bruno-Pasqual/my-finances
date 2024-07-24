@@ -9,10 +9,10 @@ const config: Config = {
 	theme: {
 		extend: {
 			colors: {
-				fundobackground: "#1D1D1D",
-				fundojanelas: "#0A0A0A",
-				fundoMenu: "#020514",
-				primary: "#5D69F3",
+				fundobackground: "#1C1C1C",
+				fundojanelas: "#232323",
+				fundoMenu: "#060606",
+				primary: "#10AC79",
 			},
 		},
 	},

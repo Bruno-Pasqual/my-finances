@@ -58,17 +58,16 @@ export default function Navbar() {
 	}
 
 	return (
-		<nav className={`navbar z-10 ${session == null ? "hidden" : ""}`}>
+		<nav
+			className={` bg-fundoMenu navbar z-10 ${session == null ? "hidden" : ""}`}
+		>
 			<ul className="links-list">
 				{linksPage.map((info, index) => (
 					<li key={index}>
 						<NavLink {...info} />
 					</li>
 				))}
-				<li
-					className="mt hidden md:flex absolute bottom-60 w-screen "
-					onClick={handleSaida}
-				>
+				<li className=" hidden md:flex bottom-60 w-screen " onClick={handleSaida}>
 					<NavLink label="sair" icon={<LogoutIcon />} navigateTo="/" />
 				</li>
 			</ul>

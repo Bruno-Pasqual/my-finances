@@ -6,11 +6,14 @@ import { validUser } from "../Dao/UserDao";
 const secretKey = "secret";
 const key = new TextEncoder().encode(secretKey);
 
+const TOKEN_EXPIRATION_MINUTES = 10;
+const SESSION_EXPIRATION_MS = TOKEN_EXPIRATION_MINUTES * 60 * 1000;
+
 export async function encrypt(payload: any) {
 	return await new SignJWT(payload)
 		.setProtectedHeader({ alg: "HS256" })
 		.setIssuedAt()
-		.setExpirationTime("10 minutes from now")
+		.setExpirationTime(`${TOKEN_EXPIRATION_MINUTES}m`)
 		.sign(key);
 }
 
@@ -30,12 +33,12 @@ export async function login(formData: FormData) {
 	const isValidUser = await validUser(user.email, user.senha);
 
 	if (isValidUser) {
-		const expires = new Date(Date.now() + 3600 * 1000);
+		const expires = new Date(Date.now() + SESSION_EXPIRATION_MS);
 		const session = await encrypt({ user, expires });
 		cookies().set("session", session, { expires, httpOnly: true });
 		return session;
 	} else {
-		null;
+		return null;
 	}
 }
 
@@ -54,9 +57,8 @@ export async function updateSession(request: NextRequest) {
 	const session = request.cookies.get("session")?.value;
 	if (!session) return;
 
-	// Refresh the session so it doesn't expire
 	const parsed = await decrypt(session);
-	parsed.expires = new Date(Date.now() + 10 * 1000);
+	parsed.expires = new Date(Date.now() + SESSION_EXPIRATION_MS);
 	const res = NextResponse.next();
 	res.cookies.set({
 		name: "session",

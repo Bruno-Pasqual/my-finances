@@ -23,7 +23,7 @@ export default function Page() {
 	}, [session, router]);
 
 	return (
-		<div className="bg-fundobackground h-screen">
+		<div className="bg-fundobackground h-screen w-screen">
 			{loading ? (
 				<CircularProgress size={200} className="fixed left-2/4 top-2/4" />
 			) : (

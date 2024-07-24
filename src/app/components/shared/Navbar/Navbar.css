@@ -29,18 +29,19 @@
 }
 
 .navlink.active:nth-child(1) {
-	color: #5d69f3;
+	color: #10ac79;
 }
 
 @media (min-width: 768px) {
 	.navbar {
-		left: 0;
-		width: 70px;
+		position: static;
 		height: 100vh;
 		align-items: flex-start;
 		transition: width 0.5s;
 		overflow: hidden;
 		padding: 0;
+		width: 60px;
+		overflow: hidden;
 	}
 
 	.navlink {

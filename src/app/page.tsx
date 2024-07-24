@@ -17,14 +17,9 @@ export default function Home() {
 	}, [session, router]);
 
 	return (
-		<main className="bg-fundobackground min-h-screen py-20">
-			{!session ? (
-				<Paper className="bg-fundojanelas max-w-[500px] w-11/12 mx-auto pb-8 md:px-6">
-					<CadastroLogin />
-				</Paper>
-			) : (
-				"Redirecionando..."
-			)}
+		<main className="bg-fundobackground min-h-screen py-20 w-screen max-w-[400px]">
+			{!session ? <CadastroLogin /> : "Redirecionando..."}
+			<div></div>
 		</main>
 	);
 }

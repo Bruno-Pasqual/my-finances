@@ -70,7 +70,7 @@ export default function ItemLista({
 				</p>
 				<p className="mt-2 text-gray-300 opacity-70">{transaction.descricao}</p>
 			</div>
-			<div className="ml-auto" onClick={handleClickOpen}>
+			<div className="ml-auto hover:cursor-pointer" onClick={handleClickOpen}>
 				<DeleteIcon />
 			</div>
 			<Dialog
@@ -80,24 +80,26 @@ export default function ItemLista({
 				aria-describedby="alert-dialog-description"
 				sx={{
 					"& .MuiBackdrop-root": {
-						backgroundColor: "rgba(0, 0, 0, 0.8)",
+						backgroundColor: "rgba(0, 0, 0, 0.6)",
 					},
 				}}
 			>
-				<DialogTitle id="alert-dialog-title">{"Excluir a transação"}</DialogTitle>
+				<DialogTitle className="text-primary" id="alert-dialog-title">
+					{"Excluir a transação"}
+				</DialogTitle>
 				<DialogContent>
-					<DialogContentText id="alert-dialog-description">
+					<DialogContentText id="alert-dialog-description" className="text-white">
 						Você tem certeza que deseja excluir essa transação?
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
 					<Button className=" text-black" onClick={handleClose}>
-						Deletar
+						<p className="text-white">Cancelar</p>
 					</Button>
 					<Button
 						onClick={() => handleDelete(transaction.id)}
 						autoFocus
-						className="bg-red-600 text-black"
+						className="bg-red-600 text-white"
 					>
 						Deletar
 					</Button>

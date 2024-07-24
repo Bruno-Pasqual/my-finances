@@ -20,5 +20,5 @@ export default function Page() {
 		setLoading(false);
 	}, [session, router]);
 
-	return <div className="bg-fundobackground h-screen">Metas</div>;
+	return <div className="bg-fundobackground h-screen w-screen">Metas</div>;
 }

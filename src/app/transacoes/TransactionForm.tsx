@@ -96,7 +96,7 @@ export default function TransactionForm({
 				variant="outlined"
 				name="valor"
 				required
-				type="number"
+				type="numeric"
 			/>
 
 			<select
