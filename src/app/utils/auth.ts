@@ -1,7 +1,8 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-
+import { userExist } from "../Dao/UserDao";
+import { useToast } from "@/hooks/useToast";
 
 const secretKey = "secret";
 const key = new TextEncoder().encode(secretKey);
@@ -21,21 +22,15 @@ export async function decrypt(input: string): Promise<any> {
 	return payload;
 }
 
-export async function login(formData: FormData) {
+export async function login(props: InformacoesLogin): Promise<LoginResponse> {
 	let userValid = false;
+
 	// Verify credentials && get the user
 
-	const user = { email: formData.get("email"), name: "John" };
+	const user = { email: props.email, senha: props.senha };
 
-	const email = formData.get("email");
-	if (email && typeof email === "string") {
-		// const isUserValid = await validateLogin(email);
-		// if (isUserValid) userValid = true;
-		// console.log(userValid);
-	} else {
-		// Handle the case where email is null or not a string
-		console.error("Email is null or not a string");
-	}
+	const isUserValid = await userExist(user.email, user.senha);
+	if (isUserValid) userValid = true;
 
 	if (userValid) {
 		// Create the session
@@ -44,8 +39,10 @@ export async function login(formData: FormData) {
 
 		// Save the session in a cookie
 		cookies().set("session", session, { expires, httpOnly: true });
+		return { success: true, msg: "Bem vindo de volta", session };
 	} else {
 		logout();
+		return { success: false, msg: "Email ou senha incorretos", session: null };
 	}
 }
 
@@ -62,11 +59,16 @@ export async function getSession() {
 
 export async function updateSession(request: NextRequest) {
 	const session = request.cookies.get("session")?.value;
-	if (!session) return;
 
-	// Refresh the session so it doesn't expire
+	if (!session) {
+		// Se não houver sessão, redirecione para a página inicial
+		return NextResponse.redirect("/");
+	}
+
+	// Se a sessão existir, atualize-a para evitar expiração
 	const parsed = await decrypt(session);
-	parsed.expires = new Date(Date.now() + 10 * 1000);
+	parsed.expires = new Date(Date.now() + 10 * 1000); // Atualizar a expiração da sessão para 10 segundos no futuro
+
 	const res = NextResponse.next();
 	res.cookies.set({
 		name: "session",
@@ -74,5 +76,6 @@ export async function updateSession(request: NextRequest) {
 		httpOnly: true,
 		expires: parsed.expires,
 	});
+
 	return res;
 }

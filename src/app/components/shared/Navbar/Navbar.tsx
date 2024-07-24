@@ -6,7 +6,10 @@ import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import FlagIcon from "@mui/icons-material/Flag";
 import PersonIcon from "@mui/icons-material/Person";
 import NavLink from "./NavLink";
-import { usePathname } from "next/navigation";
+import { useSession } from "@/app/contexts/sessionContext";
+import { useEffect } from "react";
+import { useToast } from "@/hooks/useToast";
+import { ToastType } from "@/enums/enums";
 
 type NavlinkType = {
 	label: string;
@@ -38,11 +41,15 @@ const linksPage: NavlinkType[] = [
 ];
 
 export default function Navbar() {
-	const pathName = usePathname();
-	console.log();
+	const { session } = useSession();
+	const { showToast } = useToast();
+
+	useEffect(() => {
+		if (session) showToast(ToastType.SUCCESS, "Bem vindo de volta");
+	}, [session]);
 
 	return (
-		<nav className={`navbar ${pathName === "/" ? "hidden" : ""}`}>
+		<nav className={`navbar ${session == null ? "hidden" : ""}`}>
 			<ul className="links-list">
 				{linksPage.map((info, index) => (
 					<li key={index}>

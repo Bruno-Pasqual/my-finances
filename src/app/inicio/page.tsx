@@ -1,3 +1,33 @@
+"use client";
+
+import { useEffect } from "react";
+import { useSession } from "../contexts/sessionContext";
+import { useRouter } from "next/navigation"; // Correção na importação
+import React from "react";
+import { CircularProgress } from "@mui/material";
+
 export default function Page() {
-	return <div className="bg-fundobackground h-screen">Inicio</div>;
+	const { session } = useSession();
+	const router = useRouter(); // Obtendo o router
+
+	const [loading, setLoading] = React.useState<boolean>(true);
+
+	useEffect(() => {
+		setLoading(true);
+		if (!session) {
+			router.push("/");
+		}
+
+		setLoading(false);
+	}, [session, router]);
+
+	return (
+		<div className="bg-fundobackground h-screen">
+			{loading ? (
+				<CircularProgress size={200} className="fixed left-2/4 top-2/4" />
+			) : (
+				""
+			)}
+		</div>
+	);
 }
