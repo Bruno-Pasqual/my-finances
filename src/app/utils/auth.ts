@@ -2,6 +2,7 @@ import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { validUser } from "../Dao/UserDao";
+import { InformacoesLogin } from "../types/types";
 
 const secretKey = "secret";
 const key = new TextEncoder().encode(secretKey);

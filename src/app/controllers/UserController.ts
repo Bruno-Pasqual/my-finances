@@ -20,7 +20,8 @@ export async function handleLogin(data: FormData) {
 }
 
 export async function handleCadastro(
-	formData: FormData
+	formData: FormData,
+	imageCadastro: string | null
 ): Promise<OperationResponse> {
 	const dadosCadastro = extractUserInfo(formData);
 
@@ -28,7 +29,7 @@ export async function handleCadastro(
 		if (!isEqual(dadosCadastro.senha[0], dadosCadastro.senha[1])) {
 			return { success: false, msg: "As senhas não conferem" };
 		} else {
-			createUser(dadosCadastro);
+			createUser(dadosCadastro, imageCadastro);
 			return { success: true, msg: "Usuário criado com sucesso !" };
 		}
 	} catch (error) {

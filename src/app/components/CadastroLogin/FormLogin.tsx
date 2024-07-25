@@ -5,30 +5,8 @@ import { Button, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useToast } from "@/hooks/useToast";
 import { ToastType } from "@/enums/enums";
-import { Router, useRouter } from "next/router";
 import { useGlobalContext } from "@/app/contexts/GlobalContext";
-
-// Custom styled TextField
-const CustomTextField = styled(TextField)({
-	"& label": {
-		color: "#b3b3b3", // Cor clara para o texto do rótulo
-	},
-	"& label.Mui-focused": {
-		color: "#ffffff", // Cor do rótulo quando o campo está focado
-	},
-	"& .MuiOutlinedInput-root": {
-		"& fieldset": {
-			borderColor: "#b3b3b3", // Cor clara para a borda
-		},
-		"&:hover fieldset": {
-			borderColor: "#ffffff", // Cor da borda ao passar o mouse
-		},
-		"&.Mui-focused fieldset": {
-			borderColor: "#ffffff", // Cor da borda quando o campo está focado
-		},
-		color: "#ffffff", // Cor clara para o texto
-	},
-});
+import { CustomTextField } from "../shared/CustomTextField";
 
 export default function FormLogin() {
 	const { showToast } = useToast();
@@ -55,7 +33,11 @@ export default function FormLogin() {
 	};
 
 	return (
-		<form className="text-white flex flex-col gap-y-4" onSubmit={handleSubmit}>
+		<form
+			className="text-white flex flex-col gap-y-4"
+			onSubmit={handleSubmit}
+			method="POST"
+		>
 			<h1 className="text-3xl mb-8">Entrar na sua conta</h1>
 			<CustomTextField
 				id="outlined-email"

@@ -1,37 +1,16 @@
-import {
-	handleCadastro,
-	handleEmailAvaliable,
-} from "@/app/controllers/UserController";
 import { Button, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import React from "react";
+import React, { useState } from "react";
 import { toast, Toaster } from "sonner";
 import { isValidEmailFormat } from "@/app/utils/utils";
 import { useToast } from "@/hooks/useToast";
 import { ToastType } from "@/enums/enums";
 import { OperationResponse } from "@/app/types/types";
-// Custom styled TextField
-
-const CustomTextField = styled(TextField)({
-	"& label": {
-		color: "#b3b3b3",
-	},
-	"& label.Mui-focused": {
-		color: "#ffffff",
-	},
-	"& .MuiOutlinedInput-root": {
-		"& fieldset": {
-			borderColor: "#b3b3b3",
-		},
-		"&:hover fieldset": {
-			borderColor: "#ffffff",
-		},
-		"&.Mui-focused fieldset": {
-			borderColor: "#ffffff",
-		},
-		color: "#ffffff",
-	},
-});
+import { CustomTextField } from "../shared/CustomTextField";
+import {
+	handleCadastro,
+	handleEmailAvaliable,
+} from "@/app/controllers/UserController";
 
 interface FormCadastroProps {
 	setValue: React.Dispatch<React.SetStateAction<number>>;
@@ -39,24 +18,57 @@ interface FormCadastroProps {
 
 export default function FormCadastro(props: FormCadastroProps) {
 	const { showToast } = useToast();
-
-	//#region Methods
+	const [file, setFile] = useState<File | null>(null);
 
 	const handleSubmit = async (
 		event: React.FormEvent<HTMLFormElement>,
 		setValue: React.Dispatch<React.SetStateAction<number>>
 	) => {
 		event.preventDefault();
-		const data = new FormData(event.currentTarget);
+		let data = new FormData(event.currentTarget);
+		let imagePath: string | null = "";
+
+		if (file) {
+			data.append("image", file);
+			try {
+				const res = await fetch("/api/upload", {
+					method: "POST",
+					body: data,
+				});
+
+				if (!res.ok) {
+					const errorText = await res.text();
+					throw new Error(errorText);
+				}
+
+				const responseData = await res.json();
+
+				if (responseData.success) {
+					imagePath = responseData.filePath;
+					showToast(
+						ToastType.SUCCESS,
+						`imagem armazenada em: ${responseData.filePath}`
+					);
+				} else {
+					console.error("Upload falhou:", responseData.message);
+				}
+			} catch (error) {
+				console.error("Erro no upload:");
+			}
+		}
+
 		const email = data.get("email") as string;
 		const isEmailAvaliable: boolean = await handleEmailAvaliable(email);
 
 		if (!isEmailAvaliable) {
-			toast.error("O email já está em uso");
+			showToast(ToastType.ERROR, "O email já está em uso");
 			return;
 		}
 
-		let response: OperationResponse | null = await handleCadastro(data);
+		let response: OperationResponse | null = await handleCadastro(
+			data,
+			imagePath
+		);
 		console.log(response);
 
 		if (response.success) {
@@ -68,8 +80,6 @@ export default function FormCadastro(props: FormCadastroProps) {
 	};
 
 	const handleBlur = async (event: React.FocusEvent<HTMLInputElement>) => {
-		console.log("entrei aqui");
-
 		const email: string = event.target.value;
 		if (!isValidEmailFormat(email)) return;
 		const isEmailAvaliable: boolean = await handleEmailAvaliable(email);
@@ -77,14 +87,10 @@ export default function FormCadastro(props: FormCadastroProps) {
 		if (!isEmailAvaliable) showToast(ToastType.ERROR, "O email já está em uso");
 	};
 
-	//#endregion
-
 	return (
 		<form
 			className="text-white text-lg flex flex-col gap-y-4"
-			onSubmit={(e) => {
-				handleSubmit(e, props.setValue);
-			}}
+			onSubmit={(e) => handleSubmit(e, props.setValue)}
 		>
 			<h1 className="text-3xl mb-8">Cadastrar</h1>
 			<CustomTextField label="Nome" variant="outlined" name="nome" required />
@@ -102,6 +108,18 @@ export default function FormCadastro(props: FormCadastroProps) {
 				name="senha"
 				required
 				type="password"
+			/>
+			<CustomTextField
+				variant="outlined"
+				name="image"
+				type="file"
+				onChange={(e) => {
+					const target = e.target as HTMLInputElement;
+					if (target.files && target.files[0]) {
+						setFile(target.files[0]);
+					}
+				}}
+				required
 			/>
 			<CustomTextField
 				label="Confirmar senha"
