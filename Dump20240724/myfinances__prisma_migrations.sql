@@ -1,0 +1,57 @@
+-- MySQL dump 10.13  Distrib 8.0.38, for Win64 (x86_64)
+--
+-- Host: localhost    Database: myfinances
+-- ------------------------------------------------------
+-- Server version	8.0.38
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `_prisma_migrations`
+--
+
+DROP TABLE IF EXISTS `_prisma_migrations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `_prisma_migrations` (
+  `id` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `checksum` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `finished_at` datetime(3) DEFAULT NULL,
+  `migration_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `logs` text COLLATE utf8mb4_unicode_ci,
+  `rolled_back_at` datetime(3) DEFAULT NULL,
+  `started_at` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `applied_steps_count` int unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `_prisma_migrations`
+--
+
+LOCK TABLES `_prisma_migrations` WRITE;
+/*!40000 ALTER TABLE `_prisma_migrations` DISABLE KEYS */;
+INSERT INTO `_prisma_migrations` VALUES ('1fd61b59-9ab1-489d-82bf-a40ec3a9ce34','f710506d93d8a22c4af9a47c0e243eb0e8ccfd43aaa3959ca81ee6b4408603ca','2024-07-25 00:57:07.782','20240723204752_init',NULL,NULL,'2024-07-25 00:57:07.759',1),('23b27d2d-449a-4d88-a019-0d332f3a8997','ca3cfdff79c42b6c0df0b32033e64af371ab4f7d8f93197cba6f029e5fb30c65','2024-07-25 00:57:31.825','20240725005731_date_to_transaction',NULL,NULL,'2024-07-25 00:57:31.734',1),('3221e439-1413-4eef-abfe-e2b76d553d33','b17aa38facedd07220a9d52be90add13ab163e7cd2b6b2e5cdc9011317592040','2024-07-25 00:57:07.917','20240724100250_altering_name',NULL,NULL,'2024-07-25 00:57:07.901',1),('33089282-1e59-421e-a953-e2478c8113af','3dd1b32bed13f7ac872b033403be02e9202acc2894aba5d620e42f95540f82cb','2024-07-25 00:57:07.899','20240724083639_add_relations',NULL,NULL,'2024-07-25 00:57:07.884',1),('7f6be719-dfd4-43d4-9cd1-ae0dd6986c91','50047ad3e2b320a41fc6fd02da884fd9318f4520d3efe4ec12b73ac7eb50bc86','2024-07-25 00:57:07.936','20240724235723_image_path',NULL,NULL,'2024-07-25 00:57:07.919',1),('a92a67d3-b790-419c-81d6-c1ba5efa4001','14756ee1d5e948f203912a731e7f2edbd24b0144de96d8585aa09f448f8afe65','2024-07-25 00:57:07.882','20240724054556_add_relations',NULL,NULL,'2024-07-25 00:57:07.867',1),('c453ffcf-09c6-447b-9983-160c33e5cc97','9ee2ef99e9a198d9fe54d74e942c76672dae2b9bcec781688d62ff876cc292a7','2024-07-25 00:57:07.799','20240723212114_minha_migracao',NULL,NULL,'2024-07-25 00:57:07.784',1),('ca3b5232-07eb-4771-bac5-391b8d1d9475','fb323135d352e1e1fd79187980e56a02525dd7bb0822917fe6e6b0b8ac88c7ca','2024-07-25 00:57:07.864','20240724053405_add_relations',NULL,NULL,'2024-07-25 00:57:07.802',1);
+/*!40000 ALTER TABLE `_prisma_migrations` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2024-07-24 23:37:23
