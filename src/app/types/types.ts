@@ -20,6 +20,7 @@ export type User = {
 	nome: string;
 	email: string;
 	senha: string;
+	image: string;
 };
 
 export type OperationResponse = {

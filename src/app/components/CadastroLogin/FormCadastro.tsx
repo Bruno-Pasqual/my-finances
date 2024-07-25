@@ -1,7 +1,6 @@
-import { Button, TextField } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { Button } from "@mui/material";
 import React, { useState } from "react";
-import { toast, Toaster } from "sonner";
+import { Toaster } from "sonner";
 import { isValidEmailFormat } from "@/app/utils/utils";
 import { useToast } from "@/hooks/useToast";
 import { ToastType } from "@/enums/enums";
@@ -69,7 +68,6 @@ export default function FormCadastro(props: FormCadastroProps) {
 			data,
 			imagePath
 		);
-		console.log(response);
 
 		if (response.success) {
 			showToast(ToastType.SUCCESS, response.msg);

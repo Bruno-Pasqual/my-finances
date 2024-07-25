@@ -3,8 +3,7 @@ import { infoTransaction, Transaction } from "../types/types";
 
 const prisma = new PrismaClient();
 
-// Criar Transação
-export async function criarTransacao(transaction: infoTransaction) {
+export async function createTransaction(transaction: infoTransaction) {
 	try {
 		const novaTransacao = await prisma.transaction.create({
 			data: {
@@ -13,32 +12,31 @@ export async function criarTransacao(transaction: infoTransaction) {
 				titulo: transaction.titulo,
 				tipo: transaction.tipo,
 				userId: transaction.userId,
+				dataCriacao: new Date(),
 			},
 		});
 		return novaTransacao;
 	} catch (error) {
+		console.log(error);
 		return null;
 	}
 }
 
-// Deletar Transação
-export async function deletarTransacao(id: number): Promise<Transaction> {
+export async function deleteTransactionById(id: number): Promise<Transaction> {
 	const transacaoDeletada = await prisma.transaction.delete({
 		where: { id },
 	});
 	return transacaoDeletada;
 }
 
-// Ler Transação por ID
-export async function lerTransacaoPorId(id: number) {
+export async function readTransactionById(id: number) {
 	const transacao = await prisma.transaction.findUnique({
 		where: { id },
 	});
 	return transacao;
 }
 
-// Listar Todas as Transações
-export async function listarTodasTransacoes(
+export async function listAllTransactions(
 	currentUserId: number
 ): Promise<Transaction[]> {
 	const transacoes: Transaction[] = await prisma.transaction.findMany({
@@ -49,19 +47,7 @@ export async function listarTodasTransacoes(
 	return transacoes;
 }
 
-// Listar Transações com Filtro de Tipo (Descrição)
-export async function listarTransacoesPorDescricao(descricaoFiltro: string) {
-	const transacoes = await prisma.transaction.findMany({
-		where: {
-			descricao: {
-				contains: descricaoFiltro,
-			},
-		},
-	});
-	return transacoes;
-}
-
-// Alterar Transação
+//dara tempo ?
 export async function alterarTransacao(
 	id: number,
 	valor: number,

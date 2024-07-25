@@ -22,11 +22,6 @@ export async function createUser(
 	});
 }
 
-export async function getAllUsers() {
-	const allUsers: User[] = await prisma.user.findMany();
-	return allUsers;
-}
-
 export async function isEmailAvaliable(email: string): Promise<boolean> {
 	const user = await prisma.user.findUnique({
 		where: { email: email },
@@ -61,9 +56,7 @@ export async function validUser(
 		return false;
 	}
 
-	// Comparar a senha fornecida com o hash armazenado
 	const isPasswordValid = comparePasswords(senha, user.senha);
-	console.log(user);
 
 	return isPasswordValid;
 }

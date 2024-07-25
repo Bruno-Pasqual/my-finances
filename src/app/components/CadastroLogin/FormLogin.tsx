@@ -1,16 +1,16 @@
 "use client";
 
 import { getUserId, handleLogin } from "@/app/controllers/UserController";
-import { Button, TextField } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { Button } from "@mui/material";
 import { useToast } from "@/hooks/useToast";
 import { ToastType } from "@/enums/enums";
 import { useGlobalContext } from "@/app/contexts/GlobalContext";
 import { CustomTextField } from "../shared/CustomTextField";
+import { saveToLocalStorage } from "@/app/utils/utils";
 
 export default function FormLogin() {
 	const { showToast } = useToast();
-	const { session, setSession, setCurrentUserId } = useGlobalContext();
+	const { setSession, setCurrentUserId } = useGlobalContext();
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -24,6 +24,7 @@ export default function FormLogin() {
 
 			if (currentUserId) {
 				setCurrentUserId(currentUserId);
+				saveToLocalStorage("currentUserId", currentUserId);
 				setSession(true);
 			} else {
 				showToast(ToastType.ERROR, "Alguma coisa deu errado");

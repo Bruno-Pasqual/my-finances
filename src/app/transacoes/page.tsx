@@ -9,6 +9,7 @@ import { Button, Paper } from "@mui/material";
 import TransactionForm from "./TransactionForm";
 import AddIcon from "@mui/icons-material/Add";
 import ItemLista from "../components/shared/ListItem/ItemLista";
+import { getFromLocalStorage } from "../utils/utils";
 
 export default function Page() {
 	const { session, currentUserId } = useGlobalContext();
@@ -21,8 +22,10 @@ export default function Page() {
 	useEffect(() => {
 		const getAllTransactions = async () => {
 			setLoading(true);
-			if (currentUserId) {
-				const allTransactions = await handleGetAllTransactions(currentUserId);
+			if (getFromLocalStorage("currentUserId")) {
+				const allTransactions = await handleGetAllTransactions(
+					getFromLocalStorage("currentUserId")
+				);
 				setTransactions(allTransactions);
 				setLoading(false);
 			}
@@ -78,7 +81,7 @@ export default function Page() {
 					) : (
 						<div className="flex flex-col  mx-auto ">
 							<h1 className=" text-3xl mt-8 ml-6 mb-8 ">Transações realizadas</h1>
-							<ul className="flex flex-col w-11/12 md:max-w-[700px]  mx-auto mb-16">
+							<ul className="flex flex-col w-11/12 md:max-w-[700px] gap-y-4  mx-auto mb-16">
 								{transactions.map((transaction: Transaction) => (
 									<ItemLista
 										setTransactions={setTransactions}

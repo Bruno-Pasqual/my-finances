@@ -31,11 +31,7 @@ const linksPage: NavlinkType[] = [
 		icon: <CurrencyExchangeIcon />,
 		navigateTo: "/transacoes",
 	},
-	{
-		label: "Metas",
-		icon: <FlagIcon />,
-		navigateTo: "/metas",
-	},
+
 	{
 		label: "Perfil",
 		icon: <PersonIcon />,

@@ -28,7 +28,6 @@ export async function POST(request: NextRequest) {
 
 	try {
 		await writeFile(filePath, buffer);
-		console.log(`File saved at ${filePath}`);
 		return NextResponse.json({
 			success: true,
 			filePath: `/uploads/${file.name}`,

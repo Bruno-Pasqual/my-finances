@@ -29,6 +29,7 @@ model Transaction {
   descricao   String
   titulo String @default("")
   userId      Int
+  dataCriacao DateTime
   tipo String
   user        User    @relation(fields: [userId], references: [id]) 
 }

@@ -1,3 +1,5 @@
+"use client";
+
 import { Button, styled, TextField } from "@mui/material";
 import { FormEvent } from "react";
 import { infoTransaction, Transaction } from "../types/types";
@@ -5,6 +7,7 @@ import { useGlobalContext } from "../contexts/GlobalContext";
 import { handleCreateTransaction } from "../controllers/transactionsController";
 import { useToast } from "@/hooks/useToast";
 import { ToastType } from "@/enums/enums";
+import { getFromLocalStorage } from "../utils/utils";
 
 interface TransactionFormProps {
 	setFormOpen: (open: boolean) => void;
@@ -51,14 +54,13 @@ export default function TransactionForm({
 			valor: Number.parseFloat(formData.get("valor") as string),
 			titulo: formData.get("titulo") as string,
 			tipo: formData.get("tipo") as string,
-			userId: currentUserId!,
+			userId: getFromLocalStorage("currentUserId"),
 		};
 
 		try {
 			const newTransaction = await handleCreateTransaction(data);
 
 			if (newTransaction) {
-				console.log(newTransaction);
 				form.reset();
 				setFormOpen(false);
 				showToast(ToastType.SUCCESS, "Transação criada com sucesso");

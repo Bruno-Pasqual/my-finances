@@ -34,6 +34,7 @@ export async function handleCadastro(
 		}
 	} catch (error) {
 		console.log(error);
+
 		return { success: false, msg: "Alguma coisa deu errado" };
 	}
 }
