@@ -1,3 +1,4 @@
+import { updateUserInfo } from "./../types/types";
 import { PrismaClient } from "@prisma/client";
 import { log } from "console";
 import { InformacoesCadastro, User } from "../types/types";
@@ -30,9 +31,39 @@ export async function isEmailAvaliable(email: string): Promise<boolean> {
 	return user === null;
 }
 
+export async function getUserByEmail(email: string): Promise<User | null> {
+	const user = await prisma.user.findUnique({
+		where: { email },
+	});
+
+	return user;
+}
+
+export async function updateUser(
+	updateUserInfo: updateUserInfo
+): Promise<User | null> {
+	const { id, nome, image, senha } = updateUserInfo;
+
+	console.log(id, nome, image, senha);
+
+	const data: { nome?: string; image?: string; senha?: string } = {};
+	if (nome) data.nome = nome;
+	if (image) data.image = image;
+	if (senha) data.senha = senha;
+
+	console.log("Updating user with data:", data); // Adicione isto para depuração
+
+	const user = await prisma.user.update({
+		where: { id },
+		data,
+	});
+
+	return user;
+}
+
 export async function getCurrentUserId(email: string): Promise<number | null> {
 	const user = await prisma.user.findUnique({
-		where: { email: email },
+		where: { email },
 	});
 
 	if (user) {

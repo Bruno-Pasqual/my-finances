@@ -47,7 +47,7 @@
 	.navlink {
 		flex-direction: row;
 		column-gap: 2rem;
-		padding: 1rem 1.5rem;
+		padding: 1rem 1.1rem;
 		width: 100%;
 	}
 
@@ -62,7 +62,7 @@
 	}
 
 	.navbar:hover {
-		width: 210px;
+		width: 280px;
 	}
 
 	.nav-label {

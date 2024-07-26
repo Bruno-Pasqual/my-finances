@@ -6,7 +6,7 @@ import { useToast } from "@/hooks/useToast";
 import { ToastType } from "@/enums/enums";
 import { useGlobalContext } from "@/app/contexts/GlobalContext";
 import { CustomTextField } from "../shared/CustomTextField";
-import { saveToLocalStorage } from "@/app/utils/utils";
+import { handleGetSession } from "@/app/controllers/authController";
 
 export default function FormLogin() {
 	const { showToast } = useToast();
@@ -16,6 +16,8 @@ export default function FormLogin() {
 		event.preventDefault();
 		const data = new FormData(event.currentTarget);
 		const result = await handleLogin(data);
+		const session = await handleGetSession();
+		console.log(session);
 
 		if (result) {
 			const currentUserId: number | null = await getUserId(
@@ -24,7 +26,6 @@ export default function FormLogin() {
 
 			if (currentUserId) {
 				setCurrentUserId(currentUserId);
-				saveToLocalStorage("currentUserId", currentUserId);
 				setSession(true);
 			} else {
 				showToast(ToastType.ERROR, "Alguma coisa deu errado");
@@ -56,7 +57,11 @@ export default function FormLogin() {
 				type="password"
 				required
 			/>
-			<Button type="submit" variant="contained" className="mt-4">
+			<Button
+				type="submit"
+				variant="contained"
+				className="mt-4 text-white font-semibold space-x-3 tracking-widest"
+			>
 				Entrar
 			</Button>
 		</form>

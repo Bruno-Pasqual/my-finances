@@ -35,7 +35,7 @@ export async function login(formData: FormData) {
 
 	if (isValidUser) {
 		const expires = new Date(Date.now() + SESSION_EXPIRATION_MS);
-		const session = await encrypt({ user, expires });
+		const session = await encrypt({ userEmail: user.email, expires });
 		cookies().set("session", session, { expires, httpOnly: true });
 		return session;
 	} else {
@@ -43,7 +43,7 @@ export async function login(formData: FormData) {
 	}
 }
 
-export async function FinalizarSessao() {
+export async function logout() {
 	cookies().set("session", "", { expires: new Date(0) });
 	return true;
 }

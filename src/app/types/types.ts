@@ -20,7 +20,7 @@ export type User = {
 	nome: string;
 	email: string;
 	senha: string;
-	image: string;
+	image: string | null;
 };
 
 export type OperationResponse = {
@@ -49,4 +49,11 @@ export type infoTransaction = {
 	titulo: string;
 	userId: number;
 	tipo: string;
+};
+
+export type updateUserInfo = {
+	id: number;
+	nome: string | null;
+	senha: string | null;
+	image: string | null;
 };

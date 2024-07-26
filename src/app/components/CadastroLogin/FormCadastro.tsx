@@ -126,7 +126,11 @@ export default function FormCadastro(props: FormCadastroProps) {
 				type="password"
 				required
 			/>
-			<Button variant="contained" type="submit" className="mt-4">
+			<Button
+				variant="contained"
+				type="submit"
+				className="mt-4 text-white font-semibold space-x-3 tracking-widest"
+			>
 				Cadastrar
 			</Button>
 

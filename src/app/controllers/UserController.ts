@@ -1,14 +1,16 @@
 "use server";
 
+import { logout, login as loginService } from "../utils/auth";
 import {
-	FinalizarSessao,
-	getSession,
-	login as loginService,
-} from "../utils/auth";
-import { createUser, getCurrentUserId, isEmailAvaliable } from "../Dao/UserDao";
+	createUser,
+	getCurrentUserId,
+	getUserByEmail,
+	isEmailAvaliable,
+	updateUser,
+} from "../Dao/UserDao";
 import { isEqual } from "../utils/utils";
 import { useGlobalContext } from "../contexts/GlobalContext";
-import { InformacoesCadastro, OperationResponse } from "../types/types";
+import { InformacoesCadastro, OperationResponse, User } from "../types/types";
 
 export async function handleLogin(data: FormData) {
 	try {
@@ -24,6 +26,8 @@ export async function handleCadastro(
 	imageCadastro: string | null
 ): Promise<OperationResponse> {
 	const dadosCadastro = extractUserInfo(formData);
+
+	console.log(dadosCadastro);
 
 	try {
 		if (!isEqual(dadosCadastro.senha[0], dadosCadastro.senha[1])) {
@@ -54,16 +58,35 @@ function extractUserInfo(data: FormData) {
 	return dadosCadastro;
 }
 
-export async function handleGetSession(): Promise<any> {
-	const session = await getSession();
-	return session;
-}
-
 export async function handleLogout() {
-	const response = await FinalizarSessao();
+	const response = await logout();
 }
 
 export async function getUserId(email: string) {
 	const response = await getCurrentUserId(email);
+	return response;
+}
+
+export async function handleGetUserByEmail(
+	email: string
+): Promise<User | null> {
+	const response = await getUserByEmail(email);
+	return response;
+}
+
+export async function handleUpdateUser(
+	id: number,
+	updateUserInfo: FormData,
+	image: string
+): Promise<User | null> {
+	const nome = updateUserInfo.get("nome") as string;
+	const senha = updateUserInfo.get("senha") as string;
+
+	const response = await updateUser({
+		id,
+		nome,
+		senha,
+		image,
+	});
 	return response;
 }

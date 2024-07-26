@@ -4,20 +4,23 @@ import { useEffect } from "react";
 import { useGlobalContext } from "../contexts/GlobalContext";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Paper, Stack } from "@mui/material";
 import { Transaction } from "../types/types";
 import { handleGetAllTransactions } from "../controllers/transactionsController";
 import { useToast } from "@/hooks/useToast";
 import { ToastType } from "@/enums/enums";
 import { getFromLocalStorage } from "../utils/utils";
+import TinyBarChart from "../components/shared/TinyBarChart";
+import SimpleBarChart from "../components/shared/TinyBarChart";
+import Spinner from "../components/shared/Spinner";
 
 export default function Page() {
 	const { session, currentUserId } = useGlobalContext();
-	const router = useRouter();
+	const { showToast } = useToast();
 
 	const [loading, setLoading] = React.useState<boolean>(true);
 	const [transactions, setTransactions] = React.useState<Transaction[]>([]);
-	const { showToast } = useToast();
+	const router = useRouter();
 
 	const totalReceitas = transactions?.reduce((cc, transaction) => {
 		if (transaction.tipo === "receita") {
@@ -34,7 +37,7 @@ export default function Page() {
 	}, 0);
 
 	useEffect(() => {
-		console.log(getFromLocalStorage("currentUserId"));
+		console.log("current user id: " + getFromLocalStorage("currentUserId"));
 		setLoading(true);
 		if (!session) {
 			router.push("/");
@@ -42,6 +45,8 @@ export default function Page() {
 		async function getTransactions() {
 			if (getFromLocalStorage("currentUserId")) {
 				const transactions = await handleGetAllTransactions(currentUserId!);
+				console.log(transactions);
+
 				if (transactions) setTransactions(transactions);
 			} else {
 				showToast(
@@ -59,32 +64,44 @@ export default function Page() {
 	return (
 		<div className="bg-fundobackground h-screen w-screen">
 			{loading ? (
-				<CircularProgress size={200} className="fixed left-2/4 top-2/4" />
+				<Spinner />
 			) : (
-				<main className=" w-11/12   mx-auto mt-8  mb-8 max-w-[1000px]">
-					<div>
-						<p className="text-4xl mb-12">Situação financeira</p>
-						<div className="flex flex-col gap-y-10 lg:flex-row w-[320px] lg:w-[100%] justify-between gap-x-8 mx-auto mb-36">
-							<div className=" grow border xs border-green-600 rounded-md h-30 md:h-40 pt-5 pl-10 bg-green-950">
-								<p className="text-green-700 ">Receitas totais</p>
-								<p className="text-[50px] text-green-300">
+				<main className="    mx-auto mt-8  mb-8 border max-w-7xl md:w-10/12 md:p-10 border-zinc-800	 flex flex-col gap-y-10 ">
+					<div className="">
+						<p className=" px-4 text-2xl mb-12 text-primary">Situação financeira</p>
+						{/* Container dos valores */}
+						<div className="flex flex-col gap-y-4 md:gap-y-10 lg:flex-row lg:w-[100%] justify-between gap-x-8 mx-auto  border border-zinc-800 md:p-4 px-2">
+							<div className="grow border border-green-600 rounded-md px-6 py-2  bg-green-950 ">
+								<p className="text-green-700 ">Receitas</p>
+								<p className="text-[20px] md:text-[30px] text-green-300">
 									R$ ${totalReceitas?.toFixed(2) || "0,00"}
 								</p>
 							</div>
-							<div className=" grow border border-red-600 rounded-md h-30 md:h-40 pt-5 pl-10 bg-red-950">
-								<p className="text-red-700 ">Receitas totais</p>
-								<p className="text-[50px] text-red-300">
+							<div className=" grow border border-red-600 rounded-md px-6 py-2   bg-red-950">
+								<p className="text-red-700 ">Despesas</p>
+								<p className="text-[20px] md:text-[30px] text-red-300">
 									R$ {totalDespesas?.toFixed(2) || " 0,00"}
 								</p>
 							</div>
-							<div className=" grow  h-30 md:h-40 pt-5 pl-10 rounded-md  border-green-300 border">
+							<div className=" grow rounded-md  border-white-300 border border-zinc-600 px-6 py-2 ">
 								<p>Saldo atual</p>
-								<p className=" text-[50px] text-green-700">
+								<p className="text-[20px] md:text-[30px] text-white-300">
 									R$ {(totalReceitas - totalDespesas).toFixed(2)}
 								</p>
 							</div>
 						</div>
 					</div>
+					<div className="flex w-[100%] h-[400px]  flex-col lg:flex-row  border-zinc-800 md:p-4 px-2  mx-auto ">
+						<div className=" grow  ">meta atual ativa</div>
+						<div className=" md:p-4 mx-auto ">
+							<p className="mb-4">Últimas 5 transações</p>
+							<Paper className="border  border-zinc-700 w-fit rounded-xl bg-zinc-800">
+								<SimpleBarChart transactions={transactions} />
+							</Paper>
+						</div>
+					</div>
+					<div></div>
+					<div></div>
 				</main>
 			)}
 		</div>

@@ -54,13 +54,13 @@ export default function CadastroLogin() {
 			</CustomTabPanel>
 
 			<Tabs
-				className="flex items-center justify-center w-fit mx-auto"
+				className="flex items-center justify-center w-fit mx-auto "
 				value={value}
 				onChange={handleChange}
 				aria-label="basic tabs example"
 			>
-				<Tab label="Login" className=" " {...a11yProps(0)} />
-				<Tab label="Cadastro" className="" {...a11yProps(1)} />
+				<Tab label="Login" className="  font-semibold" {...a11yProps(0)} />
+				<Tab label="Cadastro" className="font-semibold" {...a11yProps(1)} />
 			</Tabs>
 		</Box>
 	);
