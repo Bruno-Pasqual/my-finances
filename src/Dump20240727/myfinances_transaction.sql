@@ -33,7 +33,7 @@ CREATE TABLE `transaction` (
   PRIMARY KEY (`id`),
   KEY `Transaction_userId_fkey` (`userId`),
   CONSTRAINT `Transaction_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `transaction` (
 
 LOCK TABLES `transaction` WRITE;
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
-INSERT INTO `transaction` VALUES (5,50,'Indo com a família',1,'despesa','Viagem para praia','2024-07-25 02:14:57.939'),(6,50,'Enchi o tanque',1,'despesa','Gasolina para a moto','2024-07-25 02:24:23.859'),(7,2500,'Trabalho de desenvolvimento de sistema ',1,'receita','Freelance para o sr.Manoel','2024-07-25 02:24:46.134'),(8,2000,'Caiu o pagode',1,'receita','Salário do estágio','2024-07-25 02:25:25.158');
+INSERT INTO `transaction` VALUES (57,3200,'Salário',8,'receita','Receita 1','2024-07-27 00:41:43.375'),(58,650,'Viagem com a família',8,'despesa','Viagem para praia','2024-07-27 02:42:30.837'),(59,3000,'Trabalho de desenvolvimento de sistema ',8,'receita','Freelance para a Padaria Del Rey','2024-07-27 02:42:54.941'),(60,200,'Gastos com manutenção regulares',8,'despesa','Manutenção da moto','2024-07-27 02:43:16.474'),(61,1000,'-',8,'receita','Rendimentos de investimentos','2024-07-27 02:43:32.672');
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-24 23:37:23
+-- Dump completed on 2024-07-27  0:00:53

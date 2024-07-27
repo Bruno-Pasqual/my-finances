@@ -30,7 +30,7 @@ CREATE TABLE `user` (
   `image` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `User_email_key` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'bruno@gmail.com','$2a$10$Ddmnkgbsq8HSSzZLgqbrjOcrQvufthC9YtTF41QPyGR53W/zY5g9C','bruno','/uploads/enxoval-para-gato-Copia.jpg');
+INSERT INTO `user` VALUES (5,'bruno@gmail.com','$2a$10$rk6N/5kJHxjIXqrqExv/o.JsZPLilUtuDJRrm1arTaxFK4yve7rOi','bruno','/uploads/Screenshot 2024-07-02 222102.png'),(6,'bruno2@gmail.com','$2a$10$gMtRrICM/kmjDpP3H2JnreyVBAukczs0EQ0rDT6eiq.gKADRNSaYS','bruno','/uploads/Screenshot 2024-07-04 214420.png'),(7,'bruno3@gmail.com','$2a$10$TJp52GPG2PM93Lj6dUoSneHbp5XdpIMXXRiHV2lFx65fbmL0GS7LC','bruno3@gmail.com','/uploads/Screenshot 2024-07-02 221942.png'),(8,'Sabrina@gmail.com','$2a$10$HlQ/9ASNnLqjwkNOSzANx.Rc4ymLxr4vrbPwtsvVhhFeFTmaG1K5i','Eduarda','/uploads/enxoval-para-gato-Copia.jpg');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-24 23:37:23
+-- Dump completed on 2024-07-27  0:00:53
