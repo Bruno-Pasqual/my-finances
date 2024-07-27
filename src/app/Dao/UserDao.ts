@@ -32,33 +32,39 @@ export async function isEmailAvaliable(email: string): Promise<boolean> {
 }
 
 export async function getUserByEmail(email: string): Promise<User | null> {
-	const user = await prisma.user.findUnique({
-		where: { email },
-	});
+	try {
+		const user = await prisma.user.findUnique({
+			where: { email },
+		});
 
-	return user;
+		return user;
+	} catch (error) {
+		console.error("Error fetching user by email:", error);
+		return null;
+	} finally {
+		await prisma.$disconnect();
+	}
 }
-
 export async function updateUser(
 	updateUserInfo: updateUserInfo
 ): Promise<User | null> {
 	const { id, nome, image, senha } = updateUserInfo;
 
-	console.log(id, nome, image, senha);
-
 	const data: { nome?: string; image?: string; senha?: string } = {};
 	if (nome) data.nome = nome;
 	if (image) data.image = image;
-	if (senha) data.senha = senha;
+	if (senha && senha.length > 1) data.senha = senha;
 
-	console.log("Updating user with data:", data); // Adicione isto para depuração
-
-	const user = await prisma.user.update({
-		where: { id },
-		data,
-	});
-
-	return user;
+	try {
+		const user = await prisma.user.update({
+			where: { id },
+			data,
+		});
+		return user;
+	} catch (error) {
+		console.error("Error updating user:", error);
+		return null;
+	}
 }
 
 export async function getCurrentUserId(email: string): Promise<number | null> {

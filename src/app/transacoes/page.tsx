@@ -9,7 +9,7 @@ import { Button, Paper } from "@mui/material";
 import TransactionForm from "./TransactionForm";
 import AddIcon from "@mui/icons-material/Add";
 import ItemLista from "../components/shared/ListItem/ItemLista";
-import { getFromLocalStorage } from "../utils/utils";
+import Spinner from "../components/shared/Spinner";
 
 export default function Page() {
 	const { session, currentUserId } = useGlobalContext();
@@ -18,14 +18,13 @@ export default function Page() {
 	const [loading, setLoading] = useState<boolean>(true);
 	const [transactions, setTransactions] = useState<Transaction[]>([]);
 	const [formOpen, setFormOpen] = useState<boolean>(false);
+	const [formEditOpen, setFormEditOpen] = useState<boolean>(false);
 
 	useEffect(() => {
 		const getAllTransactions = async () => {
 			setLoading(true);
-			if (getFromLocalStorage("currentUserId")) {
-				const allTransactions = await handleGetAllTransactions(
-					getFromLocalStorage("currentUserId")
-				);
+			if (currentUserId) {
+				const allTransactions = await handleGetAllTransactions(currentUserId);
 				setTransactions(allTransactions);
 				setLoading(false);
 			}
@@ -48,7 +47,9 @@ export default function Page() {
 				<AddIcon />
 			</Button>
 			{loading ? (
-				<p>Loading...</p>
+				<p>
+					<Spinner />
+				</p>
 			) : (
 				<>
 					{formOpen && (
@@ -57,8 +58,8 @@ export default function Page() {
 								className="fixed inset-0 bg-black opacity-80"
 								onClick={() => setFormOpen(false)}
 							></div>
-							<div className="relative w-10/12 mx-auto px-8 py-10 md:px-8 md:py-12 bg-fundo max-w-[600px] z-30">
-								<Paper className="px-8 py-12">
+							<div className="relative w-11/12 mx-auto md:px-8 md:py-12 bg-fundo max-w-[600px] z-30">
+								<Paper className="px-4 md:px-8 py-8">
 									<TransactionForm
 										setFormOpen={setFormOpen}
 										setTransactions={setTransactions}
@@ -81,7 +82,7 @@ export default function Page() {
 					) : (
 						<div className="flex flex-col  mx-auto ">
 							<h1 className=" text-3xl mt-8 ml-6 mb-8 ">Transações realizadas</h1>
-							<ul className="flex flex-col w-11/12 md:max-w-[700px] gap-y-4  mx-auto mb-16">
+							<ul className="flex flex-col  mx-auto mb-20 border-zinc-800 md:border w-[90%] max-w-[1300px] p-2 gap-y-1">
 								{transactions.map((transaction: Transaction) => (
 									<ItemLista
 										setTransactions={setTransactions}

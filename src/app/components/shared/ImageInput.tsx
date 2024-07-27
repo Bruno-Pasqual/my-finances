@@ -8,11 +8,11 @@ export default function Home() {
 	async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault(); // Corrigido para chamar a função
 
-		if (!file) return; // Verifica se o arquivo está definido
+		if (!file) return;
 
 		try {
 			const data = new FormData();
-			data.append("file", file); // Usando append em vez de set
+			data.append("file", file);
 
 			const res = await fetch("/api/upload", {
 				method: "POST",
@@ -20,14 +20,11 @@ export default function Home() {
 			});
 
 			if (!res.ok) {
-				const errorText = await res.text(); // Corrigido para chamar o método
+				const errorText = await res.text();
 				throw new Error(errorText);
 			}
-
-			// Aqui você pode adicionar lógica para lidar com a resposta, se necessário
-			console.log("Upload bem-sucedido");
 		} catch (e: any) {
-			console.error("Erro no upload:", e.message); // Mensagem de erro mais informativa
+			console.error("Erro no upload:", e.message);
 		}
 	}
 

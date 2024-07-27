@@ -25,8 +25,9 @@ export default function FormLogin() {
 			);
 
 			if (currentUserId) {
+				const session = await handleGetSession();
 				setCurrentUserId(currentUserId);
-				setSession(true);
+				setSession(session);
 			} else {
 				showToast(ToastType.ERROR, "Alguma coisa deu errado");
 			}

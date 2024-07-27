@@ -7,7 +7,6 @@ import { useGlobalContext } from "../contexts/GlobalContext";
 import { handleCreateTransaction } from "../controllers/transactionsController";
 import { useToast } from "@/hooks/useToast";
 import { ToastType } from "@/enums/enums";
-import { getFromLocalStorage } from "../utils/utils";
 
 interface TransactionFormProps {
 	setFormOpen: (open: boolean) => void;
@@ -54,7 +53,7 @@ export default function TransactionForm({
 			valor: Number.parseFloat(formData.get("valor") as string),
 			titulo: formData.get("titulo") as string,
 			tipo: formData.get("tipo") as string,
-			userId: getFromLocalStorage("currentUserId"),
+			userId: currentUserId!,
 		};
 
 		try {

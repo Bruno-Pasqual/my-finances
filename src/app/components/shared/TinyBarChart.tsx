@@ -17,7 +17,6 @@ export default function SimpleBarChart(props: SimpleBarChartProps) {
 			? transaction.descricao.slice(0, 10) + "..."
 			: transaction.descricao;
 	});
-	console.log(valorTransacoes);
 
 	return (
 		<BarChart

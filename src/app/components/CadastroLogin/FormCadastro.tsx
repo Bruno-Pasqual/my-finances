@@ -108,6 +108,13 @@ export default function FormCadastro(props: FormCadastroProps) {
 				type="password"
 			/>
 			<CustomTextField
+				label="Confirmar senha"
+				variant="outlined"
+				name="confirmarSenha"
+				type="password"
+				required
+			/>
+			<CustomTextField
 				variant="outlined"
 				name="image"
 				type="file"
@@ -117,13 +124,6 @@ export default function FormCadastro(props: FormCadastroProps) {
 						setFile(target.files[0]);
 					}
 				}}
-				required
-			/>
-			<CustomTextField
-				label="Confirmar senha"
-				variant="outlined"
-				name="confirmarSenha"
-				type="password"
 				required
 			/>
 			<Button

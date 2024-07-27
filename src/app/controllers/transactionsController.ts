@@ -4,8 +4,13 @@ import {
 	createTransaction,
 	deleteTransactionById,
 	listAllTransactions,
+	updateTransaction,
 } from "../Dao/TransactionDao";
-import { infoTransaction, Transaction } from "../types/types";
+import {
+	infoTransaction,
+	Transaction,
+	updateTransactionInfo,
+} from "../types/types";
 
 export async function handleGetAllTransactions(
 	currentUserId: number
@@ -32,5 +37,12 @@ export async function handleDeleteTransaction(
 	transactionId: number
 ): Promise<Transaction> {
 	const response = await deleteTransactionById(transactionId);
+	return response;
+}
+
+export async function handleUpdateTransaction(
+	transactionInfo: updateTransactionInfo
+): Promise<Transaction | null> {
+	const response = await updateTransaction(transactionInfo);
 	return response;
 }

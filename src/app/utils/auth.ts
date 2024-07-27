@@ -1,7 +1,7 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { validUser } from "../Dao/UserDao";
+import { getCurrentUserId, getUserByEmail, validUser } from "../Dao/UserDao";
 import { InformacoesLogin } from "../types/types";
 
 const secretKey = "secret";
@@ -31,11 +31,17 @@ export async function login(formData: FormData) {
 		senha: formData.get("senha") as string,
 	};
 
+	const userId = await getCurrentUserId(user.email);
+
 	const isValidUser = await validUser(user.email, user.senha);
 
 	if (isValidUser) {
 		const expires = new Date(Date.now() + SESSION_EXPIRATION_MS);
-		const session = await encrypt({ userEmail: user.email, expires });
+		const session = await encrypt({
+			userId: userId,
+			userEmail: user.email,
+			expires,
+		});
 		cookies().set("session", session, { expires, httpOnly: true });
 		return session;
 	} else {

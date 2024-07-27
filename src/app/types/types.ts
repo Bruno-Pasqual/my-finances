@@ -57,3 +57,11 @@ export type updateUserInfo = {
 	senha: string | null;
 	image: string | null;
 };
+
+export type updateTransactionInfo = {
+	id: number;
+	titulo?: string;
+	descricao?: string;
+	valor?: number;
+	tipo?: string;
+};

@@ -20,17 +20,17 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
 		undefined
 	);
 
-	async function fetchSession() {
-		const sessionData = await handleGetSession();
-		if (session == null) {
-			setSession(sessionData);
-			setCurrentUserId(sessionData ? sessionData?.userId : null);
-		}
-	}
-
 	useEffect(() => {
+		async function fetchSession() {
+			const sessionData = await handleGetSession();
+			if (session == null) {
+				setSession(sessionData);
+				setCurrentUserId(sessionData ? sessionData?.userId : null);
+			}
+		}
+
 		fetchSession();
-	}, [session]);
+	}, []);
 
 	return (
 		<GlobalContext.Provider

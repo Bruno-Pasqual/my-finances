@@ -11,6 +11,7 @@ import {
 import { isEqual } from "../utils/utils";
 import { useGlobalContext } from "../contexts/GlobalContext";
 import { InformacoesCadastro, OperationResponse, User } from "../types/types";
+import { getHash } from "../utils/Bcrypt";
 
 export async function handleLogin(data: FormData) {
 	try {
@@ -26,8 +27,6 @@ export async function handleCadastro(
 	imageCadastro: string | null
 ): Promise<OperationResponse> {
 	const dadosCadastro = extractUserInfo(formData);
-
-	console.log(dadosCadastro);
 
 	try {
 		if (!isEqual(dadosCadastro.senha[0], dadosCadastro.senha[1])) {
@@ -80,7 +79,11 @@ export async function handleUpdateUser(
 	image: string
 ): Promise<User | null> {
 	const nome = updateUserInfo.get("nome") as string;
-	const senha = updateUserInfo.get("senha") as string;
+	let senha = updateUserInfo.get("senha") as string;
+
+	if (senha.length > 1) {
+		senha = getHash(senha);
+	}
 
 	const response = await updateUser({
 		id,

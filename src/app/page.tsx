@@ -5,6 +5,7 @@ import CadastroLogin from "./components/CadastroLogin/CadastroLogin";
 import { useGlobalContext } from "./contexts/GlobalContext";
 import { useRouter } from "next/navigation";
 import { handleGetSession } from "./controllers/authController";
+import Spinner from "./components/shared/Spinner";
 
 export default function Home() {
 	const { session, setSession } = useGlobalContext();
@@ -14,11 +15,11 @@ export default function Home() {
 		const checkSession = async () => {
 			const response = await handleGetSession();
 			setSession(response);
-			response && router.push("inicio");
+			response && router.push("/inicio");
 		};
 
 		if (session) {
-			// router.push("/inicio");
+			router.push("/inicio");
 		} else {
 			checkSession();
 		}
@@ -26,7 +27,7 @@ export default function Home() {
 
 	return (
 		<main className="bg-fundobackground min-h-screen py-20 w-screen max-w-[400px]">
-			{!session ? <CadastroLogin /> : "Redirecionando..."}
+			{!session ? <CadastroLogin /> : <Spinner />}
 		</main>
 	);
 }

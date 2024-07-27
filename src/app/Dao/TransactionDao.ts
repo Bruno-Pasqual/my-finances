@@ -1,5 +1,9 @@
 import { PrismaClient } from "@prisma/client";
-import { infoTransaction, Transaction } from "../types/types";
+import {
+	infoTransaction,
+	Transaction,
+	updateTransactionInfo,
+} from "../types/types";
 
 const prisma = new PrismaClient();
 
@@ -61,4 +65,33 @@ export async function alterarTransacao(
 		},
 	});
 	return transacaoAtualizada;
+}
+
+export async function updateTransaction(
+	updateInfo: updateTransactionInfo
+): Promise<Transaction | null> {
+	const { id, titulo, descricao, valor, tipo } = updateInfo;
+
+	const data: {
+		titulo?: string;
+		descricao?: string;
+		valor?: number;
+		tipo?: string;
+	} = {};
+
+	if (titulo) data.titulo = titulo;
+	if (descricao) data.descricao = descricao;
+	if (valor) data.valor = valor;
+	if (tipo) data.tipo = tipo;
+
+	try {
+		const transaction: Transaction = await prisma.transaction.update({
+			where: { id },
+			data,
+		});
+		return transaction;
+	} catch (error) {
+		console.error("Error updating user:", error);
+		return null;
+	}
 }

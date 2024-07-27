@@ -4,18 +4,17 @@ import { useEffect } from "react";
 import { useGlobalContext } from "../contexts/GlobalContext";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { CircularProgress, Paper, Stack } from "@mui/material";
+import { Paper } from "@mui/material";
 import { Transaction } from "../types/types";
 import { handleGetAllTransactions } from "../controllers/transactionsController";
 import { useToast } from "@/hooks/useToast";
 import { ToastType } from "@/enums/enums";
-import { getFromLocalStorage } from "../utils/utils";
-import TinyBarChart from "../components/shared/TinyBarChart";
+
 import SimpleBarChart from "../components/shared/TinyBarChart";
 import Spinner from "../components/shared/Spinner";
 
 export default function Page() {
-	const { session, currentUserId } = useGlobalContext();
+	const { session } = useGlobalContext();
 	const { showToast } = useToast();
 
 	const [loading, setLoading] = React.useState<boolean>(true);
@@ -30,23 +29,20 @@ export default function Page() {
 	}, 0);
 
 	const totalDespesas = transactions?.reduce((cc, transaction) => {
-		if (transaction.tipo === "receita") {
+		if (transaction.tipo === "despesa") {
 			return cc + transaction.valor;
 		}
 		return cc;
 	}, 0);
 
 	useEffect(() => {
-		console.log("current user id: " + getFromLocalStorage("currentUserId"));
 		setLoading(true);
 		if (!session) {
 			router.push("/");
 		}
 		async function getTransactions() {
-			if (getFromLocalStorage("currentUserId")) {
-				const transactions = await handleGetAllTransactions(currentUserId!);
-				console.log(transactions);
-
+			if (session.userId) {
+				const transactions = await handleGetAllTransactions(session.userId);
 				if (transactions) setTransactions(transactions);
 			} else {
 				showToast(
@@ -57,9 +53,8 @@ export default function Page() {
 		}
 
 		getTransactions();
-
 		setLoading(false);
-	}, [session, router]);
+	}, []);
 
 	return (
 		<div className="bg-fundobackground h-screen w-screen">
