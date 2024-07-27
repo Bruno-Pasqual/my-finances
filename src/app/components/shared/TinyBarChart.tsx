@@ -5,6 +5,7 @@ import { Transaction } from "@/app/types/types";
 
 type SimpleBarChartProps = {
 	transactions: Transaction[];
+	titulo: string;
 };
 
 export default function SimpleBarChart(props: SimpleBarChartProps) {
@@ -19,11 +20,14 @@ export default function SimpleBarChart(props: SimpleBarChartProps) {
 	});
 
 	return (
-		<BarChart
-			width={320}
-			height={300}
-			series={[{ data: valorTransacoes, id: "pvId" }]}
-			xAxis={[{ data: labels, scaleType: "band" }]}
-		/>
+		<div className="">
+			<p className="text-white">{props.titulo}</p>
+			<BarChart
+				width={360}
+				height={300}
+				series={[{ data: valorTransacoes, id: "pvId" }]}
+				xAxis={[{ data: labels, scaleType: "band" }]}
+			/>
+		</div>
 	);
 }

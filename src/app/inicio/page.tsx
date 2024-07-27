@@ -86,7 +86,7 @@ export default function Page() {
 							</div>
 						</div>
 					</div>
-					<div className="flex w-[100%] h-[400px]  flex-col lg:flex-row  border-zinc-800 md:p-4 px-2  mx-auto ">
+					<div className="flex w-[100%]   flex-col lg:flex-row  border-zinc-800 md:p-4 px-2  mx-auto ">
 						<div className=" md:p-4 mx-auto w-[100%] ">
 							<p className="mb-4">
 								{transactions.length == 0
@@ -97,8 +97,16 @@ export default function Page() {
 												: "transações registradas"
 									  }`}
 							</p>
-							<Paper className="border  border-zinc-700 w-fit rounded-xl bg-zinc-800">
-								<SimpleBarChart transactions={transactions} />
+							<Paper className="border  border-zinc-700 w-fit rounded-xl bg-zinc-800 flex flex-wrap gap-x-6">
+								<SimpleBarChart transactions={transactions} titulo={"Todas"} />
+								<SimpleBarChart
+									titulo={"Receitas"}
+									transactions={transactions.filter((t) => t.tipo == "receita")}
+								/>
+								<SimpleBarChart
+									titulo={"Despesas"}
+									transactions={transactions.filter((t) => t.tipo == "despesa")}
+								/>
 							</Paper>
 						</div>
 					</div>
