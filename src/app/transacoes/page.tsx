@@ -38,7 +38,7 @@ export default function Page() {
 	}, [session, router, currentUserId]);
 
 	return (
-		<div className="bg-fundobackground min-h-screen w-screen">
+		<div className="bg-fundobackground min-h-screen w-screen ">
 			<Button
 				variant="contained"
 				className="fixed bottom-24 md:bottom-12 right-6 rounded-[50%] py-[20px] z-10"

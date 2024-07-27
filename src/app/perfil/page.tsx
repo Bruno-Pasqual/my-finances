@@ -99,7 +99,7 @@ export default function Page() {
 				<Spinner />
 			) : (
 				<div className=" w-screen min-h-screen  bg-fundobackground">
-					<div className="container   mx-auto w-max-[1000px] lg:flex lg:gap-x-4 pt-10  ">
+					<div className="container   mx-auto w-max-[1000px] lg:flex lg:gap-x-4 pt-20  ">
 						<Paper className="mb-10 p-8 bg-none border-black max-w-[400px] mx-auto">
 							{currentUser?.image && (
 								<Image

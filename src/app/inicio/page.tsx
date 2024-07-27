@@ -41,7 +41,7 @@ export default function Page() {
 			router.push("/");
 		}
 		async function getTransactions() {
-			if (session.userId) {
+			if (session?.userId) {
 				const transactions = await handleGetAllTransactions(session.userId);
 				if (transactions) setTransactions(transactions);
 			} else {
@@ -54,10 +54,10 @@ export default function Page() {
 
 		getTransactions();
 		setLoading(false);
-	}, []);
+	}, [session]);
 
 	return (
-		<div className="bg-fundobackground h-screen w-screen">
+		<div className="bg-fundobackground min-h-screen w-screen">
 			{loading ? (
 				<Spinner />
 			) : (
@@ -87,9 +87,16 @@ export default function Page() {
 						</div>
 					</div>
 					<div className="flex w-[100%] h-[400px]  flex-col lg:flex-row  border-zinc-800 md:p-4 px-2  mx-auto ">
-						<div className=" grow  ">meta atual ativa</div>
-						<div className=" md:p-4 mx-auto ">
-							<p className="mb-4">Últimas 5 transações</p>
+						<div className=" md:p-4 mx-auto w-[100%] ">
+							<p className="mb-4">
+								{transactions.length == 0
+									? "Ainda não há transações registradas"
+									: `${transactions.length} ${
+											transactions.length == 1
+												? "transação registrada"
+												: "transações registradas"
+									  }`}
+							</p>
 							<Paper className="border  border-zinc-700 w-fit rounded-xl bg-zinc-800">
 								<SimpleBarChart transactions={transactions} />
 							</Paper>

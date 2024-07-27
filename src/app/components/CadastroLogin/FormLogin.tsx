@@ -17,7 +17,6 @@ export default function FormLogin() {
 		const data = new FormData(event.currentTarget);
 		const result = await handleLogin(data);
 		const session = await handleGetSession();
-		console.log(session);
 
 		if (result) {
 			const currentUserId: number | null = await getUserId(
